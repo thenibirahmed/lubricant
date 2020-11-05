@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class isRole
-{
+class isRole {
     /**
      * Handle an incoming request.
      *
@@ -14,8 +14,23 @@ class isRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
-    {
-        return $next($request);
+    public function handle( Request $request, Closure $next, ...$roles ) {
+        if ( !Auth::check() ) { // I included this check because you have it, but it really should be part of your 'auth' middleware, most likely added as part of a route group.
+            return redirect( 'login' );
+        }
+
+        $user = Auth::user();
+
+        if ( $user->role != null && ( $user->role->name == "Admin" || $user->role->name == "Super Admin" ) ) {
+            return $next( $request );
+        }
+
+        foreach ( $roles as $role ) {
+            // Check if user has the role This check will depend on how your roles are set up
+            if ( $user->role != null && $user->role->name == $role ) {
+                return $next( $request );
+            }
+        }
+        return abort( 403, 'Unauthorized Action' );
     }
 }

@@ -87,11 +87,11 @@
                     <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                        <ul class="dropdown-menu">
+                        {{-- <ul class="dropdown-menu">
                             <li><a href="javascript:void(0);">Action</a></li>
                             <li><a href="javascript:void(0);">Another Action</a></li>
                             <li><a href="javascript:void(0);">Something else</a></li>
-                        </ul>
+                        </ul> --}}
                     </li>
                 </ul>
             </div>
@@ -127,27 +127,36 @@
                     </li>
                 </ul> --}}
             </div>
+            @php
+                if (Auth::user()->role && ( Auth::user()->role->name != "Admin" && Auth::user()->role->name != "Super Admin" ) ){
+                    $field = "disabled";
+                }else{
+                    $field = "";
+                }
+            @endphp 
+            
+
             {!! Form::open(['route'=>'user_basic_data.update','method'=>'PATCH']) !!}
             <div class="body">
                 <div class="row clearfix">
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">                                                
-                            <input type="text" name="name" class="form-control" value="{{ $user->name }}" placeholder="Name">
+                            <input {{ $field }} type="text" name="name" class="form-control" value="{{ $user->name }}" placeholder="Name">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">                                                
-                            <input type="text" name="fathers_name" class="form-control" value="{{ $user->fathers_name }}" placeholder="Fathers Name">
+                            <input {{ $field }} type="text" name="fathers_name" class="form-control" value="{{ $user->fathers_name }}" placeholder="Fathers Name">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <select class="form-control">
-                                @foreach ($roles as $role)
+                            <select {{ $field }} class="form-control" name="role_id">
+                                @foreach ($roles as $key => $role)
                                     @if ($role == Auth::user()->role->name)
-                                        <option selected value="{{ $role }}">{{ $role }}</option>
+                                        <option selected value="{{ $key }}">{{ $role }}</option>
                                     @else 
-                                        <option value="{{ $role }}">{{ $role }}</option>
+                                        <option value="{{ $key }}">{{ $role }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -155,28 +164,28 @@
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="shop_name" value="{{ $user->shop_name ?? '' }}" class="form-control" placeholder="Shop Name">
+                            <input {{ $field }} type="text" name="shop_name" value="{{ $user->shop_name ?? '' }}" class="form-control" placeholder="Shop Name">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="nid" class="form-control" value="{{ $user->nid ?? "Not Found" }}" placeholder="National ID (NID)">
+                            <input {{ $field }} type="text" name="nid" class="form-control" value="{{ $user->nid ?? "Not Found" }}" placeholder="National ID (NID)">
                         </div>
                     </div> 
 
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="division" title="division" class="form-control" disabled value="{{ $user->division }}">
+                            <input {{ $field }} type="text" name="division" title="division" class="form-control" value="{{ $user->division }}">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="district" title="district" class="form-control" value="{{ $user->district }}" disabled>
+                            <input {{ $field }} type="text" name="district" title="district" class="form-control" value="{{ $user->district }}">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="subdistrict" title="subdistrict" class="form-control" value="{{ $user->subdistrict }}" disabled>
+                            <input {{ $field }} type="text" name="subdistrict" title="subdistrict" class="form-control" value="{{ $user->subdistrict }}">
                         </div>
                     </div>
 
@@ -205,12 +214,12 @@
                     </div> --}}
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control" value="{{ $user->email }}" placeholder="Email">
+                            <input {{ $field }} type="email" name="email" class="form-control" value="{{ $user->email }}" placeholder="Email">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="cell_no" class="form-control" value="{{ $user->cell_no }}" placeholder="Phone Number">
+                            <input {{ $field }} type="text" name="cell_no" class="form-control" value="{{ $user->cell_no }}" placeholder="Phone Number">
                         </div>
                     </div>                                
                     <div class="col-lg-12 col-md-12">

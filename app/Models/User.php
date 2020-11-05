@@ -28,6 +28,7 @@ class User extends Authenticatable {
         'trade_lisence',
         'shop_image',
         'shop_name',
+        'is_active',
     ];
 
     /**

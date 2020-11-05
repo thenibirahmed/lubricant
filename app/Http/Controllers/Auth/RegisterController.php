@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Media;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller {
     /*
@@ -59,6 +60,7 @@ class RegisterController extends Controller {
             'subdistrict'   => ['required', 'string', 'max:255'],
             'trade_lisence' => ['nullable', 'string', 'max:255'],
             'shop_image'    => ['nullable', 'max:255'],
+            'is_active'     => ['required'],
         ] );
     }
 
@@ -84,5 +86,4 @@ class RegisterController extends Controller {
         ] );
     }
 
-    
 }

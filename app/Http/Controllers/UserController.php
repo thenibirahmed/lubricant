@@ -56,7 +56,7 @@ class UserController extends Controller {
             'subdistrict'  => 'required',
             'shop_name'    => 'nullable',
             'password'     => 'required|confirmed|min:8',
-
+            'is_active'    => 'required'
         ], [
             'role_id.required' => 'The Role field is required',
         ] );
@@ -177,7 +177,7 @@ class UserController extends Controller {
             'subdistrict'  => 'required',
             'shop_name'    => 'nullable',
             'password'     => 'nullable|confirmed|min:8',
-
+            'is_active'    => 'required'
         ], [
             'role_id.required' => 'The Role field is required',
         ] );
@@ -207,8 +207,9 @@ class UserController extends Controller {
             $data['shop_image'] = $image->id;
 
         }
-
-        $data['password'] = Hash::make( $data['password'] );
+        if(isset($data['password'])){
+            $data['password'] = Hash::make( $data['password'] );
+        }
 
         $user->update( $data );
         return redirect()->back()->with( 'update', 1 );
@@ -235,6 +236,25 @@ class UserController extends Controller {
 
         User::findOrFail( Auth::user()->id )->update( $data );
         return redirect()->back()->with( 'account_update', 1 );
+    }
+
+    public function user_basic_data_update( Request $request ) {
+
+        $data = $request->validate( [
+            'name'         => 'required',
+            'fathers_name' => 'required',
+            'role_id'      => 'required',
+            'shop_name'    => 'nullable',
+            'nid'          => 'required',
+            'division'     => 'required',
+            'district'     => 'required',
+            'subdistrict'  => 'required',
+        ] );
+        // dd($data);
+
+        User::findOrFail( Auth::user()->id )->update( $data );
+
+        return redirect()->back()->with( 'basic_update', 1 );
     }
 
     /**

@@ -140,7 +140,12 @@
                                 @enderror
                             </div>
                         </div>
-
+                        @if( $errors->any() )
+                            @foreach ($errors->all() as $item)
+                                {{ $item }}
+                            @endforeach
+                        @endif
+                        {!! Form::hidden('is_active',0) !!}
                         <div class="form-group row">
                             <label for="subdistrict" class="col-md-4 col-form-label text-md-right">{{ __('Subdistrict') }}</label>
 
@@ -179,7 +184,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-12 text-center">
                                 <p>
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -221,7 +226,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-6 text-right">

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration {
             $table->string( 'division' );
             $table->string( 'district' );
             $table->string( 'subdistrict' );
+            $table->boolean( 'is_active' )->default(0);
 
             $table->foreignId( 'role_id' )->nullable();
 
