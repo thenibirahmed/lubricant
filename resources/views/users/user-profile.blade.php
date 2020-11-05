@@ -66,15 +66,15 @@
                         <img src="../assets/images/user.png" class="rounded" alt="">
                     </div>
                     <div class="details">
-                        <h5 class="mb-0">{{ $user->f_name ?? '' }} {{ $user->l_name ?? '' }} </h5>
+                        <h5 class="mb-0">{{ $user->name ?? '' }}</h5>
                         <span class="text-light">{{ $user->department ? $user->department->name : '' }}</span>
-                        <p class="mb-0"><span>Shift: <strong>{{ $user->shift ? $user->shift->name : '' }}</strong></span> <span>Branch: <strong>{{ $user->branch ? $user->branch->name : '' }}</strong></span></p>
+                        {{-- <p class="mb-0"><span>Shift: <strong>{{ $user->shift ? $user->shift->name : '' }}</strong></span> <span>Branch: <strong>{{ $user->branch ? $user->branch->name : '' }}</strong></span></p> --}}
                     </div>                                
                 </div>
-                <div>
+                {{-- <div>
                     <button class="btn btn-primary btn-sm">Follow</button>
                     <button class="btn btn-success btn-sm">Message</button>
-                </div>
+                </div> --}}
             </div>
         </div>                    
     </div>
@@ -96,16 +96,16 @@
                 </ul>
             </div>
             <div class="body">
-                <small class="text-muted">Address: </small>
-                <p>{{ $user->address ?? "Not Found" }}</p>
+                <small class="text-muted">Role: </small>
+                <p>{{ $user->role ? $user->role->name : "Not Found" }}</p>
                 <small class="text-muted">Email address: </small>
                 <p>{{ $user->email ?? "Not Found" }}</p>                            
                 <hr>
                 <small class="text-muted">Mobile: </small>
                 <p>{{ $user->cell_no ?? "Not Found" }}</p>
                 <hr>
-                <small class="text-muted">Birth Date: </small>
-                <p class="m-b-0">October 17th, 93</p>
+                <small class="text-muted">Shop Name: </small>
+                <p class="m-b-0">{{ $user->shop_name ?? 'Not Found' }}</p>
                 
             </div>
         </div>
@@ -115,7 +115,7 @@
         <div class="card">
             <div class="header">
                 <h2>Basic Information</h2>
-                <ul class="header-dropdown dropdown">                                
+                {{-- <ul class="header-dropdown dropdown">                                
                     <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
@@ -125,71 +125,66 @@
                             <li><a href="javascript:void(0);">Something else</a></li>
                         </ul>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
             {!! Form::open(['route'=>'user_basic_data.update','method'=>'PATCH']) !!}
             <div class="body">
                 <div class="row clearfix">
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">                                                
-                            <input type="text" name="f_name" class="form-control" value="{{ $user->f_name }}" placeholder="First Name">
+                            <input type="text" name="name" class="form-control" value="{{ $user->name }}" placeholder="Name">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">                                                
-                            <input type="text" name="l_name" class="form-control" value="{{ $user->l_name }}" placeholder="Last Name">
+                            <input type="text" name="fathers_name" class="form-control" value="{{ $user->fathers_name }}" placeholder="Fathers Name">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
                             <select class="form-control">
-                                
-                                <option value="">-- Select Gander --</option>
-                                <option value="AF">Male</option>
-                                <option value="AX">Female</option>
+                                @foreach ($roles as $role)
+                                    @if ($role == Auth::user()->role->name)
+                                        <option selected value="{{ $role }}">{{ $role }}</option>
+                                    @else 
+                                        <option value="{{ $role }}">{{ $role }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar"></i></span>
-                                </div>
-                                <input type="date" class="form-control" placeholder="Birthdate">
-                            </div>
+                            <input type="text" name="shop_name" value="{{ $user->shop_name ?? '' }}" class="form-control" placeholder="Shop Name">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-globe"></i></span>
-                                </div>
-                                <input type="text" name="website" class="form-control" value="{{ $user->website ?? "Not Found" }}" placeholder="http://">
-                            </div>
+                            <input type="text" name="nid" class="form-control" value="{{ $user->nid ?? "Not Found" }}" placeholder="National ID (NID)">
                         </div>
-                    </div>                                
+                    </div> 
+
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="country" title="country" class="form-control" disabled value="{{ $user->country }}">
+                            <input type="text" name="division" title="division" class="form-control" disabled value="{{ $user->division }}">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="region" title="region" class="form-control" value="{{ $user->region }}" disabled>
+                            <input type="text" name="district" title="district" class="form-control" value="{{ $user->district }}" disabled>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group">
-                            <input type="text" name="zip" title="zip" class="form-control" value="{{ $user->zip }}" disabled>
+                            <input type="text" name="subdistrict" title="subdistrict" class="form-control" value="{{ $user->subdistrict }}" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12">
+
+                    {{-- <div class="col-lg-12 col-md-12">
                         <div class="form-group">                                                
                             <textarea rows="4" type="text" name="address" class="form-control" placeholder="Address">{{ $user->address ?? "Not Found" }}</textarea>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <input type="submit" value="Update" class="btn btn-round btn-primary"> &nbsp;&nbsp;
                 {{-- <button type="button" class="btn btn-round btn-default">Cancel</button> --}}
@@ -203,17 +198,17 @@
             {!! Form::open(['route'=>'user_account_data.update','method'=>'PATCH']) !!}
             <div class="body">
                 <div class="row clearfix">
-                    <div class="col-lg-4 col-md-12">                                            
+                    {{-- <div class="col-lg-4 col-md-12">                                            
                         <div class="form-group">                                                
                             <input type="text" class="form-control" value="{{ $user->username }}" title="username" disabled placeholder="Username">
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
+                    </div> --}}
+                    <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <input type="email" name="email" class="form-control" value="{{ $user->email }}" placeholder="Email">
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <input type="text" name="cell_no" class="form-control" value="{{ $user->cell_no }}" placeholder="Phone Number">
                         </div>

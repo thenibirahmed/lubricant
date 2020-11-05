@@ -26,6 +26,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource( 'users', 'UserController' )->except( 'show' );
 Route::get( '/profile', ['uses' => 'UserController@profile', 'as' => 'user.profile'] );
+Route::get( '/search-user', ['uses' => 'UserController@search', 'as' => 'user.search'] );
+
+Route::patch( '/user-basic-data-update', [
+    'as'   => 'user_basic_data.update',
+    'uses' => 'UsersController@user_basic_data_update',
+] );
+Route::patch( '/user-account-data-update', [
+    'as'   => 'user_account_data.update',
+    'uses' => 'UsersController@user_account_data_update',
+] );
 
 
 Route::get('/str',function(){

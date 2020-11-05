@@ -43,9 +43,12 @@
                 <li><a href="#" class="has-arrow"><i class="icon-users"></i><span>Users</span></a>
                     <ul>
                         <li>
+                            @if (Auth::user()->role && (Auth::user()->role->name == 'Admin' || Auth::user()->role->name == 'Super Admin') )
                             <a href="{{ route('users.index') }}">All Users</a>
                             <a href="{{ route('users.create') }}">Create Users</a>
-                            <a href="#">Search Users</a>
+                            <a href="{{ route('users.search') }}">Search Users</a>
+                            @endif
+                            <a href="{{ route('user.profile') }}">My Profile</a>
                         </li>
                     </ul>                 
                 </li>
