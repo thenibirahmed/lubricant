@@ -1,0 +1,35 @@
+input:focus{
+    color:black!important;
+}
+.theme-green .sidebar-nav .metismenu ul a:hover::before {
+    background: #ffffff00!important;
+}
+body{
+    font-weight: 500!important;
+}
+.light_version .table {
+    color: #565656;
+}
+.light_version .table.table-hover tbody tr:hover {
+    cursor: pointer;
+    color: #111111;
+}
+select{
+    color: #666!important;
+}
+textarea{
+    color: #666!important;
+}
+a:focus{
+    color:#fff;
+}
+.card label{
+    cursor: pointer;
+}
+input[type=submit]{
+    color:#fff!important;
+}
+img.salary-image{
+    width: 170px;
+    height: 170px;
+}

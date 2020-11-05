@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +24,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('php',function(){
-    echo phpinfo();
+Route::resource( 'users', 'UserController' )->except( 'show' );
+Route::get( '/profile', ['uses' => 'UserController@profile', 'as' => 'user.profile'] );
+
+
+Route::get('/str',function(){
+    echo Storage::url("nibir.txt");
 });
-
-

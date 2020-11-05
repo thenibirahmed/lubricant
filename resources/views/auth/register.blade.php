@@ -6,6 +6,11 @@
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> --}}
 <div class="container">
     <div class="row justify-content-center">
+        {{-- @if ( $errors->any() )
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        @endif --}}
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
@@ -85,20 +90,64 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
+                            <label for="role_id" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
 
                             <div class="col-md-6">
                                 {{-- <input id="role" type="text" class="form-control @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}"> --}}
 
-                                <select name="role" id="role" class="form-control">
+                                {{-- <select name="role_id" id="role" class="form-control">
                                     <option value="dealer">Dealer</option>
                                     <option value="shop_owner">Shop Owner</option>
                                     <option value="service_center">Service Center</option>
                                     <option value="sales_representative">Sales Representative</option>
                                     <option value="divisional_manager">Divisional Manager</option>
-                                </select>
+                                </select> --}}
 
-                                @error('role')
+                                {!! Form::select('role_id', $roles, old('role_id'), ['class'=>'form-control','placeholder'=>'Choose Role']) !!}
+
+                                @error('role_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="division" class="col-md-4 col-form-label text-md-right">{{ __('Division') }}</label>
+
+                            <div class="col-md-6">
+                                {!! Form::select('division',\App\Models\User::divisions,null,['class'=>'form-control','placeholder'=>'Select Division']) !!}
+
+                                @error('division')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="district" class="col-md-4 col-form-label text-md-right">{{ __('District') }}</label>
+
+                            <div class="col-md-6">
+                                {!! Form::select('district',\App\Models\User::districts,null,['class'=>'form-control','placeholder'=>'Select District']) !!}
+
+                                @error('district')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="subdistrict" class="col-md-4 col-form-label text-md-right">{{ __('Subdistrict') }}</label>
+
+                            <div class="col-md-6">
+                                {!! Form::select('subdistrict',\App\Models\User::upazilas,null,['class'=>'form-control','placeholder'=>'Select Subdistrict']) !!}
+
+                                @error('subdistrict')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -139,7 +188,35 @@
                                 </p>
                                 <div class="collapse" id="collapseExample">
                                     <div class="card card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+
+                                        <div class="form-group row">
+                                            <label for="trade_lisence" class="col-md-4 col-form-label text-md-right">{{ __('Trade Lisence') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="trade_lisence" type="text" class="form-control @error('trade_lisence') is-invalid @enderror" name="trade_lisence" value="{{ old('trade_lisence') }}">
+
+                                                @error('trade_lisence')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="shop_image" class="col-md-4 col-form-label text-md-right">{{ __('Shop Image') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="shop_image" type="file" class="form-control-file @error('shop_image') is-invalid @enderror" name="shop_image" value="{{ old('shop_image') }}">
+
+                                                @error('shop_image')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
