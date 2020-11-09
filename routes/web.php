@@ -45,15 +45,15 @@ Route::get( '/profile', ['uses' => 'UserController@profile', 'as' => 'user.profi
 
 Route::get( 'setup', function () {
     User::insert( [
-        'name'    => 'Admin',
-        'email'    => 'admin@admin.com',
-        'cell_no'    => '123456',
-        'nid'    => '123456',
+        'name'        => 'Admin',
+        'email'       => 'admin@admin.com',
+        'cell_no'     => '123456',
+        'nid'         => '123456',
         'division'    => 'Dhaka',
         'district'    => 'Dhaka',
-        'subdistrict'    => 'Dhaka',
-        'password'=> Hash::make('password'),
-        'role_id' => 1,
+        'subdistrict' => 'Dhaka',
+        'password'    => Hash::make( 'password' ),
+        'role_id'     => 1,
     ] );
 
     Role::insert( [
@@ -68,3 +68,8 @@ Route::get( 'setup', function () {
 
     echo "Setup Successful";
 } );
+
+Route::post( 'front-reg', [
+    'as'   => 'reg.front',
+    'uses' => 'UserController@front_reg',
+] );

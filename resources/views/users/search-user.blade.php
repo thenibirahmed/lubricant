@@ -79,6 +79,8 @@
                                         <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Service Center">Service Center</button>
                                         <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Sales Representative">Sales Representative</button>
                                         <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Divisional Manager">Divisional Manager</button>
+                                        <a href="{{ route('user.search') }}" class="btn btn-sm mb-1 btn-filter btn-outline-secondary">Reset</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +93,7 @@
                                         <th><b>#</b></th>
                                         <th class="w60"><b> Name</b></th>
                                         <th><b>Role</b></th>
-                                        {{-- <th><b>Username</b></th> --}}
+                                        <th><b>Division</b></th>
                                         <th><b>Cell No.</b></th>
                                         <th><b>Created Date</b></th>
                                         <th class="w100"><b> Action</b></th>
@@ -106,13 +108,13 @@
                                                         <img src="{{ $user->media && $user->media->id != 0 ? $user->media->path : '//via.placeholder.com/50' }}" data-toggle="tooltip" data-placement="top" title="{{ $user->f_name ." ". $user->l_name }}" class="w35 h35 rounded">
                                                     </td>
                                                     <td>
-                                                        <p class="mb-0"><b>{{ $user->name }}</b></p>
-                                                        <span>{{ $user->email }}</span>
+                                                        <p class="mb-0"><b>{{ $user->name ?? 'Not Found' }}</b></p>
+                                                        <span>{{ $user->email ?? 'Not Found' }}</span>
                                                     </td>
                                                     <td><span class="badge {{ $user->role ? 'badge-info' : 'badge-danger' }}">{{ $user->role->name ?? 'Not Defined' }}</span></td>
-                                                    {{-- <td>{{ $user->username }}</td> --}}
-                                                    <td>{{ $user->cell_no }}</td>
-                                                    <td>{{ $user->created_at->diffForHumans() }}</td>
+                                                    <td>{{ $user->division ?? "Not Found" }}</td>
+                                                    <td>{{ $user->cell_no ?? 'Not Found' }}</td>
+                                                    <td>{{ $user->created_at ? $user->created_at->diffForHumans() : "Not Found" }}</td>
                                                     <td>
                                                         <a href="{{ route('users.edit',['user'=>$user->id]) }}" type="button" class="btn btn-sm btn-default" title="Edit"><i class="fa fa-edit"></i></a>
                                                         {{-- <button type="button" class="btn btn-sm btn-default js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o text-danger"></i></button> --}}

@@ -56,7 +56,7 @@ class UserController extends Controller {
             'subdistrict'  => 'required',
             'shop_name'    => 'nullable',
             'password'     => 'required|confirmed|min:8',
-            'is_active'    => 'required'
+            'is_active'    => 'required',
         ], [
             'role_id.required' => 'The Role field is required',
         ] );
@@ -108,7 +108,7 @@ class UserController extends Controller {
     public function search( Request $request ) {
         if ( empty( $request->all() ) ) {
             return view( 'users.search-user', [
-                'usermodal' => true,
+               'users' => User::all()
             ] );
         } else {
             // dd( $request->all() );
@@ -149,7 +149,7 @@ class UserController extends Controller {
     public function edit( User $user ) {
 
         $roles = Role::pluck( 'name', 'id' )->toArray();
-
+        // dd($user);
         return view( 'users.edit-users', [
             'user'  => $user,
             'roles' => $roles,
@@ -177,7 +177,7 @@ class UserController extends Controller {
             'subdistrict'  => 'required',
             'shop_name'    => 'nullable',
             'password'     => 'nullable|confirmed|min:8',
-            'is_active'    => 'required'
+            'is_active'    => 'required',
         ], [
             'role_id.required' => 'The Role field is required',
         ] );
@@ -207,7 +207,7 @@ class UserController extends Controller {
             $data['shop_image'] = $image->id;
 
         }
-        if(isset($data['password'])){
+        if ( isset( $data['password'] ) ) {
             $data['password'] = Hash::make( $data['password'] );
         }
 
@@ -236,6 +236,70 @@ class UserController extends Controller {
 
         User::findOrFail( Auth::user()->id )->update( $data );
         return redirect()->back()->with( 'account_update', 1 );
+    }
+
+    public function front_reg( Request $request ) {
+
+        $data = $request->validate( [
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'      => ['required', 'string', 'min:8', 'confirmed'],
+            'fathers_name'  => ['required', 'string', 'max:255'],
+            'cell_no'       => ['required', 'string', 'max:255'],
+            'nid'           => ['required', 'string', 'max:255'],
+            'role_id'       => ['required', 'integer', 'max:255'],
+            'division'      => ['required', 'string', 'max:255'],
+            'district'      => ['required', 'string', 'max:255'],
+            'subdistrict'   => ['required', 'string', 'max:255'],
+            'trade_lisence' => ['nullable', 'image'],
+            'shop_image'    => ['nullable', 'image'],
+            'shop_name'     => ['nullable', 'string'],
+            'is_active'     => ['required'],
+        ] );
+
+        if ( $file = $request->file( 'trade_lisence' ) ) {
+            // dd("File to ase");
+            $name = time() . $file->getClientOriginalName();
+            $file->move( 'media/userimages/', $name );
+
+            $path = asset( 'media/userimages/' . $name );
+
+            $image = Media::create( ['path' => $path, 'name' => $name] );
+            //$image = Media::create( ['path' => asset( 'media/userimages/' ) . $name, 'name' => $request->username] );
+            $data['trade_lisence'] = $image->id;
+            // dd("File gese");
+        }
+
+        if ( $file = $request->file( 'shop_image' ) ) {
+
+            $name = time() . $file->getClientOriginalName();
+            $file->move( 'media/userimages/', $name );
+
+            $path = asset( 'media/userimages/' . $name );
+
+            $image = Media::create( ['path' => $path, 'name' => $name] );
+            //$image = Media::create( ['path' => asset( 'media/userimages/' ) . $name, 'name' => $request->username] );
+            $data['shop_image'] = $image->id;
+
+        }
+
+        User::create( [
+            'name'          => $data['name'],
+            'email'         => $data['email'],
+            'password'      => Hash::make( $data['password'] ),
+            'fathers_name'  => $data['fathers_name'],
+            'cell_no'       => $data['cell_no'],
+            'nid'           => $data['nid'],
+            'role_id'       => $data['role_id'],
+            'division'      => $data['division'],
+            'district'      => $data['district'],
+            'subdistrict'   => $data['subdistrict'],
+            'trade_lisence' => $data['trade_lisence'] ?? null,
+            'shop_image'    => $data['shop_image'] ?? null,
+            'shop_name'     => $data['shop_name'] ?? null,
+        ] );
+
+        return redirect( '/login' );
     }
 
     public function user_basic_data_update( Request $request ) {

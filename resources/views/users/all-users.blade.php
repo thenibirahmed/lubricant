@@ -76,13 +76,13 @@
                                             <img src="{{ $user->media && $user->media->id != 0 ? $user->media->path : '//via.placeholder.com/50' }}" data-toggle="tooltip" data-placement="top" title="{{ $user->f_name ." ". $user->l_name }}" class="w35 h35 rounded">
                                         </td>
                                         <td>
-                                            <p class="mb-0"><b>{{ $user->name }}</b></p>
-                                            <span>{{ $user->email }}</span>
+                                            <p class="mb-0"><b>{{ $user->name ?? "Not found" }}</b></p>
+                                            <span>{{ $user->email ?? "Not Found" }}</span>
                                         </td>
                                         <td><span class="badge {{ $user->role ? 'badge-info' : 'badge-danger' }}">{{ $user->role->name ?? 'Not Defined' }}</span></td>
                                         {{-- <td>{{ $user->username }}</td> --}}
-                                        <td>{{ $user->cell_no }}</td>
-                                        <td>{{ $user->created_at->diffForHumans() }}</td>
+                                        <td>{{ $user->cell_no ?? "Not Found" }}</td>
+                                        <td>{{ $user->created_at ? $user->created_at->diffForHumans() : "Not found" }}</td>
                                         <td>
                                             <a href="{{ route('users.edit',['user'=>$user->id]) }}" type="button" class="btn btn-sm btn-default" title="Edit"><i class="fa fa-edit"></i></a>
                                             {{-- <button type="button" class="btn btn-sm btn-default js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o text-danger"></i></button> --}}

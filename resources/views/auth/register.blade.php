@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> --}}
+
 <div class="container">
     <div class="row justify-content-center">
         {{-- @if ( $errors->any() )
@@ -16,7 +14,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('reg.front') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -117,7 +115,7 @@
                             <label for="division" class="col-md-4 col-form-label text-md-right">{{ __('Division') }}</label>
 
                             <div class="col-md-6">
-                                {!! Form::select('division',\App\Models\User::divisions,null,['class'=>'form-control','placeholder'=>'Select Division']) !!}
+                                {!! Form::select('division',\App\Models\User::divisions,null,['class'=>'form-control select2','placeholder'=>'Select Division']) !!}
 
                                 @error('division')
                                     <span class="invalid-feedback" role="alert">
@@ -131,7 +129,7 @@
                             <label for="district" class="col-md-4 col-form-label text-md-right">{{ __('District') }}</label>
 
                             <div class="col-md-6">
-                                {!! Form::select('district',\App\Models\User::districts,null,['class'=>'form-control','placeholder'=>'Select District']) !!}
+                                {!! Form::select('district',\App\Models\User::districts,null,['class'=>'form-control select2','placeholder'=>'Select District']) !!}
 
                                 @error('district')
                                     <span class="invalid-feedback" role="alert">
@@ -150,7 +148,7 @@
                             <label for="subdistrict" class="col-md-4 col-form-label text-md-right">{{ __('Subdistrict') }}</label>
 
                             <div class="col-md-6">
-                                {!! Form::select('subdistrict',\App\Models\User::upazilas,null,['class'=>'form-control','placeholder'=>'Select Subdistrict']) !!}
+                                {!! Form::select('subdistrict',\App\Models\User::upazilas,null,['class'=>'form-control select2','placeholder'=>'Select Subdistrict']) !!}
 
                                 @error('subdistrict')
                                     <span class="invalid-feedback" role="alert">
@@ -184,7 +182,7 @@
                             </div>
                         </div>
 
-                        {{-- <div class="row">
+                        <div class="row">
                             <div class="col-12 text-center">
                                 <p>
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -195,10 +193,24 @@
                                     <div class="card card-body">
 
                                         <div class="form-group row">
+                                            <label for="shop_name" class="col-md-4 col-form-label text-md-right">{{ __('Shop Name') }}</label>
+
+                                            <div class="col-md-6">
+                                                <input id="shop_name" type="text" class="form-control @error('shop_name') is-invalid @enderror" name="shop_name" value="{{ old('shop_name') }}">
+
+                                                @error('shop_name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
                                             <label for="trade_lisence" class="col-md-4 col-form-label text-md-right">{{ __('Trade Lisence') }}</label>
 
                                             <div class="col-md-6">
-                                                <input id="trade_lisence" type="text" class="form-control @error('trade_lisence') is-invalid @enderror" name="trade_lisence" value="{{ old('trade_lisence') }}">
+                                                <input id="trade_lisence" type="file" class="form-control-file @error('trade_lisence') is-invalid @enderror" name="trade_lisence" value="{{ old('trade_lisence') }}">
 
                                                 @error('trade_lisence')
                                                     <span class="invalid-feedback" role="alert">
@@ -226,7 +238,7 @@
                                 </div>
 
                             </div>
-                        </div> --}}
+                        </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-6 text-right">
@@ -242,4 +254,11 @@
     </div>
 </div>
 
+
+
+
+
 @endsection
+
+
+

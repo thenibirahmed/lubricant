@@ -82,7 +82,7 @@ class RegisterController extends Controller {
             'division'      => $data['division'],
             'district'      => $data['district'],
             'subdistrict'   => $data['subdistrict'],
-            'trade_lisence' => $data['trade_lisence'],
+            // 'trade_lisence' => $data['trade_lisence'],
         ] );
     }
 
