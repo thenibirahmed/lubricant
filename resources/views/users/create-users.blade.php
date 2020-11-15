@@ -4,6 +4,10 @@
     Create User
 @endsection
 
+@section('custom-header')
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('block-header')
     <div class="block-header">
 
@@ -137,21 +141,21 @@
 						<div class="form-row mt-2">
 						    <div class="form-group col-md-4">
                                 <b>{!! Form::label('division', 'Division'); !!}</b><span class="text-danger">*</span>
-                                {!! Form::select('division',\App\Models\User::divisions,old('division'),['class'=>($errors->has('division')) ? 'form-control parsley-error' :'form-control']) !!}
+                                {!! Form::select('division',\App\Models\User::divisions,old('division'),['class'=>($errors->has('division')) ? 'form-control parsley-error select2' :'form-control select2']) !!}
                                 @error('division')
                                     <p class="text-danger mt-1">{{ $message }}</p>
                                 @enderror
 						    </div>
 						    <div class="form-group col-md-4">
                                 <b>{!! Form::label('district', 'District'); !!}</b><span class="text-danger">*</span>
-                                {!! Form::select('district',\App\Models\User::districts,old('district'),['class'=>($errors->has('district')) ? 'states form-control parsley-error' : 'states form-control']) !!}
+                                {!! Form::select('district',\App\Models\User::districts,old('district'),['class'=>($errors->has('district')) ? 'states form-control parsley-error select2' : 'states form-control select2']) !!}
                                 @error('district')
                                     <p class="text-danger mt-1">{{ $message }}</p>
                                 @enderror
 						    </div>
 						    <div class="form-group col-md-4">
                                 <b>{!! Form::label('subdistrict', 'Subdistrict'); !!}</b><span class="text-danger">*</span>
-                                {!! Form::select('subdistrict',\App\Models\User::upazilas,old('subdistrict'),['class'=>($errors->has('subdistrict')) ? 'states form-control parsley-error' : 'states form-control']) !!}
+                                {!! Form::select('subdistrict',\App\Models\User::upazilas,old('subdistrict'),['class'=>($errors->has('subdistrict')) ? 'states form-control parsley-error select2' : 'states form-control select2']) !!}
                                 @error('subdistrict')
                                     <p class="text-danger mt-1">{{ $message }}</p>
                                 @enderror
@@ -234,9 +238,11 @@
 
 
 @section('custom-footer-prepend')
-    <script src="{{ asset("js/crs.min.js") }}"></script>
+    {{-- <script src="{{ asset("js/crs.min.js") }}"></script> --}}
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            $('.select2').select2();
 			$('input#img_id').change(function(){
 
 				if (this.files && this.files[0]) {
