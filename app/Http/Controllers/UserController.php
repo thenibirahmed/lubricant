@@ -217,7 +217,9 @@ class UserController extends Controller {
 
                 //return $unlinkAddress . $user->media->id;
                 //return asset('') . $oldimage->path;
-                unlink( $unlinkAddress );
+                if( file_exists($unlinkAddress) ){
+                    unlink( $unlinkAddress );
+                }
                 Media::destroy( $user->lisence->id );
             }
 
@@ -240,7 +242,9 @@ class UserController extends Controller {
 
                 //return $unlinkAddress . $user->media->id;
                 //return asset('') . $oldimage->path;
-                unlink( $unlinkAddress );
+                if( file_exists($unlinkAddress) ){
+                    unlink( $unlinkAddress );
+                }
                 Media::destroy( $user->shop_img->id );
             }
 
@@ -383,7 +387,9 @@ class UserController extends Controller {
 
             //return $unlinkAddress . $user->media->id;
             //return asset('') . $oldimage->path;
-            unlink( $unlinkAddress );
+            if( file_exists($unlinkAddress) ){
+                unlink( $unlinkAddress );
+            }
             Media::destroy( $user->lisence->id );
         }
 
@@ -393,7 +399,9 @@ class UserController extends Controller {
 
             //return $unlinkAddress . $user->media->id;
             //return asset('') . $oldimage->path;
-            unlink( $unlinkAddress );
+            if( file_exists($unlinkAddress) ){
+                unlink( $unlinkAddress );
+            }
             Media::destroy( $user->shop_img->id );
         }
 
