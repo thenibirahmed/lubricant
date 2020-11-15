@@ -51,7 +51,7 @@
                     
 						<div class="form-row">
 							<div class="col">
-                                <b>{!! Form::label('name', 'Full Name'); !!}</b>
+                                <b>{!! Form::label('name', 'Full Name'); !!}</b><span class="text-danger">*</span>
                                 {!! Form::text('name',old('name'),['class'=>($errors->has('name')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'First Name']) !!}
                                 @error('name')
                                     <p class="text-danger mt-1">{{ $message }}</p>
@@ -77,6 +77,14 @@
                             </div>
 
                             <div class="col">
+                                <b>{!! Form::label('dob', 'Date of Birth'); !!}</b>
+                                {!! Form::date('dob',old('dob'),['class'=>($errors->has('dob')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'Date of Birth']) !!}
+                                @error('dob')
+                                    <p class="text-danger mt-1">{{ $message }}</p>
+                                @enderror 
+							</div>
+
+                            <div class="col">
                                 <b>{!! Form::label('nid', 'National ID'); !!}</b>
                                 {!! Form::text('nid',old('nid'),['class'=>($errors->has('nid')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'National ID']) !!}                                  
                             </div>
@@ -84,13 +92,7 @@
                                 <p class="text-danger mt-1">{{ $message }}</p>
                             @enderror
 
-                            {{-- <div class="col">
-                                <b>{!! Form::label('name', 'Full Name'); !!}</b>
-                                {!! Form::text('name',old('name'),['class'=>($errors->has('name')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'First Name']) !!}
-                                @error('name')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror 
-							</div> --}}
+            
 						</div>
 
 						
@@ -106,14 +108,14 @@
                                 @enderror
 						    </div>
 						    <div class="form-group col-md-4 col-6 mt-4">
-                                <b>{!! Form::label('cell_no', 'Cell No'); !!}</b>
+                                <b>{!! Form::label('cell_no', 'Cell No'); !!}</b><span class="text-danger">*</span>
                                 {!! Form::text('cell_no',null,['class'=>($errors->has('cell_no')) ? 'form-control parsley-error' : 'form-control']) !!}
                                 @error('cell_no')
                                     <p class="text-danger mt-1">{{ $message }}</p>
                                 @enderror  
 						    </div>
 						    <div class="form-group col-md-4 col-6 mt-4">
-                                <b>{!! Form::label('is_active', 'Is Active'); !!}</b>
+                                <b>{!! Form::label('is_active', 'Is Active'); !!}</b><span class="text-danger">*</span>
                                 {!! Form::select('is_active',['0'=>'Not Active','1'=>'Active'],null,['class'=>'form-control']) !!}  
                             </div>
                         </div>
@@ -126,24 +128,29 @@
                             @enderror
                         </div> --}}
                         
+                        <b>{!! Form::label('address', 'Address'); !!}</b><span class="text-danger">*</span>
+                        {!! Form::text('address',old('address'),['class'=>($errors->has('address')) ? 'form-control parsley-error mb-3' : 'form-control mb-3']) !!}
+                        @error('address')
+                            <p class="text-danger mt-1">{{ $message }}</p>
+                        @enderror
                         
 						<div class="form-row mt-2">
 						    <div class="form-group col-md-4">
-                                <b>{!! Form::label('division', 'Division.'); !!}</b>
-                                {!! Form::select('division',\App\Models\User::divisions,old('division'),['class'=>($errors->has('division')) ? 'form-control parsley-error' :'form-control','data-region-id'=>'region']) !!}
+                                <b>{!! Form::label('division', 'Division'); !!}</b><span class="text-danger">*</span>
+                                {!! Form::select('division',\App\Models\User::divisions,old('division'),['class'=>($errors->has('division')) ? 'form-control parsley-error' :'form-control']) !!}
                                 @error('division')
                                     <p class="text-danger mt-1">{{ $message }}</p>
                                 @enderror
 						    </div>
 						    <div class="form-group col-md-4">
-                                <b>{!! Form::label('district', 'District'); !!}</b>
+                                <b>{!! Form::label('district', 'District'); !!}</b><span class="text-danger">*</span>
                                 {!! Form::select('district',\App\Models\User::districts,old('district'),['class'=>($errors->has('district')) ? 'states form-control parsley-error' : 'states form-control']) !!}
                                 @error('district')
                                     <p class="text-danger mt-1">{{ $message }}</p>
                                 @enderror
 						    </div>
 						    <div class="form-group col-md-4">
-                                <b>{!! Form::label('subdistrict', 'Subdistrict'); !!}</b>
+                                <b>{!! Form::label('subdistrict', 'Subdistrict'); !!}</b><span class="text-danger">*</span>
                                 {!! Form::select('subdistrict',\App\Models\User::upazilas,old('subdistrict'),['class'=>($errors->has('subdistrict')) ? 'states form-control parsley-error' : 'states form-control']) !!}
                                 @error('subdistrict')
                                     <p class="text-danger mt-1">{{ $message }}</p>

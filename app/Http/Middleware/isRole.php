@@ -21,13 +21,12 @@ class isRole {
 
         $user = Auth::user();
 
-        if ( $user->role != null && ( $user->role->name == "Admin" || $user->role->name == "Super Admin" ) ) {
+        if ( $user->role != null && ( $user->role->priority == 1 || $user->role->priority == 1 ) ) {
             return $next( $request );
         }
-
         foreach ( $roles as $role ) {
             // Check if user has the role This check will depend on how your roles are set up
-            if ( $user->role != null && $user->role->name == $role ) {
+            if ( $user->role != null && $user->role->priority == $role ) {
                 return $next( $request );
             }
         }

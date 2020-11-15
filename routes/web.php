@@ -22,15 +22,19 @@ Route::get( '/', function () {
     return view( 'welcome' );
 } );
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get( '/home', [App\Http\Controllers\HomeController::class, 'index'] )->name( 'home' );
 
-Route::group( ['auth', 'role:Admin'], function () {
-    Route::resource( 'users', 'UserController' )->except( 'show' );
-
+Route::group( ['middleware' => ['auth', 'role:1,2']], function () {
+    
     Route::get( '/search-user', ['uses' => 'UserController@search', 'as' => 'user.search'] );
 
+} );
+
+Route::group( ['middleware' => 'auth'], function () {    
+    Route::get( '/profile', ['uses' => 'UserController@profile', 'as' => 'user.profile'] );
+    Route::resource( 'users', 'UserController' )->except( 'show' );
     Route::patch( '/user-basic-data-update', [
         'as'   => 'user_basic_data.update',
         'uses' => 'UserController@user_basic_data_update',
@@ -39,9 +43,8 @@ Route::group( ['auth', 'role:Admin'], function () {
         'as'   => 'user_account_data.update',
         'uses' => 'UserController@user_account_data_update',
     ] );
-
 } );
-Route::get( '/profile', ['uses' => 'UserController@profile', 'as' => 'user.profile'] );
+
 
 Route::get( 'setup', function () {
     User::insert( [
@@ -73,3 +76,5 @@ Route::post( 'front-reg', [
     'as'   => 'reg.front',
     'uses' => 'UserController@front_reg',
 ] );
+
+

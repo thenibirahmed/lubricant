@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
+
+    public function __construct() {
+        $this->middleware(['auth','role:1,2'])->except(['create','store','profile','user_account_data_update','user_basic_data_update']);
+        $this->middleware(['auth','role:1,2,5'])->only(['create','store']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,8 +34,12 @@ class UserController extends Controller {
      */
     public function create() {
 
-        $roles = Role::pluck( 'name', 'id' )->toArray();
-
+        if( Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2) ){
+            $roles = Role::pluck( 'name', 'id' )->toArray();
+        }else{
+            $roles = Role::whereIn('priority',[10,11,12])->pluck( 'name', 'id' )->toArray();
+        }
+        // dd($roles);
         return view( 'users.create-users', [
             'roles' => $roles,
         ] );
@@ -43,23 +52,37 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store( Request $request ) {
-        // dd( $request->all() );
+        // dd( $request->role_id );
+
         $data = $request->validate( [
             'name'         => 'required',
-            'fathers_name' => 'required',
-            'email'        => 'required|unique:App\Models\User,email',
+            'fathers_name' => 'nullable',
+            'email'        => 'nullable|unique:App\Models\User,email',
             'cell_no'      => 'required|string',
             'role_id'      => 'required|gt:0',
-            'nid'          => 'required',
+            'nid'          => 'nullable',
             'division'     => 'required',
             'district'     => 'required',
             'subdistrict'  => 'required',
             'shop_name'    => 'nullable',
-            'password'     => 'required|confirmed|min:8',
+            'password'     => 'nullable|confirmed|min:8',
             'is_active'    => 'required',
+            'dob'          => 'nullable',
+            'address'      => 'required',
         ], [
             'role_id.required' => 'The Role field is required',
         ] );
+
+        if ( Auth::user()->role && Auth::user()->role->priority == 5 ) {
+            $data['se'] = Auth::user()->id;
+        }
+        
+// dd( $data );
+        if($data['password'] == null){
+            $data['password'] = Hash::make("password");
+        }else{
+            $data['password'] = Hash::make( $data['password'] );
+        }
 
         //dd("validation successful");
 
@@ -89,8 +112,6 @@ class UserController extends Controller {
 
         }
 
-        $data['password'] = Hash::make( $data['password'] );
-
         $lastInput = User::create( $data );
         return redirect()->route( 'users.index' )->with( 'success', 1 );
     }
@@ -108,7 +129,7 @@ class UserController extends Controller {
     public function search( Request $request ) {
         if ( empty( $request->all() ) ) {
             return view( 'users.search-user', [
-               'users' => User::all()
+                'users' => User::all(),
             ] );
         } else {
             // dd( $request->all() );
@@ -167,22 +188,38 @@ class UserController extends Controller {
     public function update( Request $request, User $user ) {
         $data = $request->validate( [
             'name'         => 'required',
-            'fathers_name' => 'required',
-            'email'        => 'required|unique:App\Models\User,email,' . $user->id,
+            'fathers_name' => 'nullable',
+            'email'        => 'nullable|unique:App\Models\User,email,' . $user->id,
             'cell_no'      => 'required|string',
             'role_id'      => 'required|gt:0',
-            'nid'          => 'required',
+            'nid'          => 'nullable',
             'division'     => 'required',
             'district'     => 'required',
             'subdistrict'  => 'required',
             'shop_name'    => 'nullable',
             'password'     => 'nullable|confirmed|min:8',
             'is_active'    => 'required',
+            'dob'          => 'nullable',
+            'address'      => 'required',
         ], [
             'role_id.required' => 'The Role field is required',
         ] );
 
+        if ( $data['password'] == null ) {
+            unset( $data['password'] );
+        }
+
         if ( $file = $request->file( 'trade_lisence' ) ) {
+
+            if ( $user->lisence ) {
+
+                $unlinkAddress = str_replace( asset( '' ), '', $user->lisence->path );
+
+                //return $unlinkAddress . $user->media->id;
+                //return asset('') . $oldimage->path;
+                unlink( $unlinkAddress );
+                Media::destroy( $user->lisence->id );
+            }
 
             $name = time() . $file->getClientOriginalName();
             $file->move( 'media/userimages/', $name );
@@ -196,6 +233,16 @@ class UserController extends Controller {
         }
 
         if ( $file = $request->file( 'shop_image' ) ) {
+
+            if ( $user->shop_img ) {
+
+                $unlinkAddress = str_replace( asset( '' ), '', $user->shop_img->path );
+
+                //return $unlinkAddress . $user->media->id;
+                //return asset('') . $oldimage->path;
+                unlink( $unlinkAddress );
+                Media::destroy( $user->shop_img->id );
+            }
 
             $name = time() . $file->getClientOriginalName();
             $file->move( 'media/userimages/', $name );
@@ -242,7 +289,7 @@ class UserController extends Controller {
 
         $data = $request->validate( [
             'name'          => ['required', 'string', 'max:255'],
-            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email'         => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
             'password'      => ['required', 'string', 'min:8', 'confirmed'],
             'fathers_name'  => ['required', 'string', 'max:255'],
             'cell_no'       => ['required', 'string', 'max:255'],

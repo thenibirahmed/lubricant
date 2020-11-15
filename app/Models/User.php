@@ -29,6 +29,9 @@ class User extends Authenticatable {
         'shop_image',
         'shop_name',
         'is_active',
+        'dob',
+        'se',
+        'address',
     ];
 
     /**
