@@ -128,11 +128,13 @@ class UserController extends Controller {
 
     public function search( Request $request ) {
         if ( empty( $request->all() ) ) {
+
             return view( 'users.search-user', [
                 'users' => User::all(),
+                'roles' => Role::all(),
             ] );
         } else {
-            // dd( $request->all() );
+            
             $data = $request->validate( [
                 'division'    => 'required',
                 'district'    => 'nullable',
@@ -144,10 +146,11 @@ class UserController extends Controller {
             $user = isset( $data['district'] ) ? $user->where( 'district', $data['district'] ) : $user;
             $user = isset( $data['subdistrict'] ) ? $user->where( 'subdistrict', $data['subdistrict'] ) : $user;
 
-            //dd($user->get());
+            $roles = Role::all();
 
             return view( 'users.search-user', [
                 'users' => $user->get(),
+                'roles' => $roles,
             ] );
         }
     }

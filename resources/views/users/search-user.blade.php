@@ -66,21 +66,25 @@
                     <div class="" id="">
                         <div class="body mb-3">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-md-12">
                                     <div class="text-left">
                                         <button type="button" class="btn btn-sm mb-1 btn-outline-primary" data-toggle="modal" data-target="#exampleModal">Select Address</button>
                                     </div>
                                 </div>
-                                <div class="col-9">
-                                    <div class="text-right">
+                            </div>
+                        </div>
+                        <div class="body mb-3">
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+                                    <div class="text-center">
                                         <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-secondary" data-target="all">All</button>
-                                        <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Dealer">Dealer{{--<span class="badge badge-light">4</span>--}}</button>
-                                        <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Shop Owner">Shop Owner</button>
-                                        <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Service Center">Service Center</button>
-                                        <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Sales Representative">Sales Representative</button>
-                                        <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="Divisional Manager">Divisional Manager</button>
+                                        @if ( isset($roles) )
+                                            @foreach ($roles as $role)
+                                                <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="{{ $role->name }}">{{ $role->name }}</button>
+                                            @endforeach
+                                        @endif
                                         <a href="{{ route('user.search') }}" class="btn btn-sm mb-1 btn-filter btn-outline-secondary">Reset</a>
-
                                     </div>
                                 </div>
                             </div>

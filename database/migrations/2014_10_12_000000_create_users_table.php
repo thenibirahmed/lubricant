@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration {
 
 
             $table->string( 'cell_no' );
-            $table->string( 'nid' );
+            $table->string( 'nid' )->nullable();
             $table->string( 'shop_name' )->nullable();
             $table->string( 'trade_lisence' )->nullable();
             $table->foreignId( 'shop_image' )->nullable();
