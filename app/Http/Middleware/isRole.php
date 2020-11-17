@@ -15,15 +15,17 @@ class isRole {
      * @return mixed
      */
     public function handle( Request $request, Closure $next, ...$roles ) {
+        // dd($roles);
         if ( !Auth::check() ) { // I included this check because you have it, but it really should be part of your 'auth' middleware, most likely added as part of a route group.
             return redirect( 'login' );
         }
 
         $user = Auth::user();
 
-        if ( $user->role != null && ( $user->role->priority == 1 || $user->role->priority == 1 ) ) {
+        if ( $user->role != null && ( $user->role->priority == 1 || $user->role->priority == 2 ) ) {
             return $next( $request );
         }
+        
         foreach ( $roles as $role ) {
             // Check if user has the role This check will depend on how your roles are set up
             if ( $user->role != null && $user->role->priority == $role ) {

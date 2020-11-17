@@ -60,6 +60,10 @@ class User extends Authenticatable {
         return $this->belongsTo( 'App\Models\Media', 'shop_image' );
     }
 
+    public function sales_user() {
+        return $this->hasMany( 'App\Models\User', 'se', 'id' );
+    }
+
     const divisions = [
         'Chattagram' => 'Chattagram',
         'Rajshahi'   => 'Rajshahi',

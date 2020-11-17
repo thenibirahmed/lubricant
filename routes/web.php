@@ -32,9 +32,9 @@ Route::group( ['middleware' => ['auth', 'role:1,2']], function () {
 
 } );
 
+Route::resource( 'users', 'UserController' )->except( 'show' );
 Route::group( ['middleware' => 'auth'], function () {    
     Route::get( '/profile', ['uses' => 'UserController@profile', 'as' => 'user.profile'] );
-    Route::resource( 'users', 'UserController' )->except( 'show' );
     Route::patch( '/user-basic-data-update', [
         'as'   => 'user_basic_data.update',
         'uses' => 'UserController@user_basic_data_update',

@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller {
 
     public function __construct() {
-        $this->middleware(['auth','role:1,2'])->except(['create','store','profile','user_account_data_update','user_basic_data_update']);
-        $this->middleware(['auth','role:1,2,5'])->only(['create','store']);
+        $this->middleware(['auth','role:1,2'])->except(['index','create','store','profile','user_account_data_update','user_basic_data_update']);
+        $this->middleware(['auth','role:1,2,5'])->only(['index','create','store']);
     }
     /**
      * Display a listing of the resource.
@@ -21,10 +21,17 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $data = User::all();
-        return view( 'users.all-users', [
-            'users' => $data,
-        ] );
+        if( Auth::user()->role && Auth::user()->role->priority == 5 ){
+            $data = Auth::user()->sales_user;
+            return view( 'users.all-users', [
+                'users' => $data,
+            ] );
+        }else{
+            $data = User::all();
+            return view( 'users.all-users', [
+                'users' => $data,
+            ] );
+        }
     }
 
     /**
