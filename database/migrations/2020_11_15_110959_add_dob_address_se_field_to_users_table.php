@@ -14,7 +14,7 @@ class AddDobAddressSeFieldToUsersTable extends Migration {
         Schema::table( 'users', function ( Blueprint $table ) {
             $table->longText('address');
             $table->date('dob')->nullable();
-            $table->integer('se')->nullable();
+            $table->integer('added_by')->nullable();
         } );
     }
 

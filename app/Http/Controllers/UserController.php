@@ -13,7 +13,7 @@ class UserController extends Controller {
 
     public function __construct() {
         $this->middleware(['auth','role:1,2'])->except(['index','create','store','profile','user_account_data_update','user_basic_data_update']);
-        $this->middleware(['auth','role:1,2,5'])->only(['index','create','store']);
+        $this->middleware(['auth','role:1,2,5,8'])->only(['index','create','store']);
     }
     /**
      * Display a listing of the resource.
@@ -22,11 +22,18 @@ class UserController extends Controller {
      */
     public function index() {
         if( Auth::user()->role && Auth::user()->role->priority == 5 ){
-            $data = Auth::user()->sales_user;
+            $data = Auth::user()->by;
+            
             return view( 'users.all-users', [
                 'users' => $data,
             ] );
-        }else{
+        }elseif(Auth::user()->role && Auth::user()->role->priority == 8){
+            $data = Auth::user()->by;
+            return view( 'users.all-users', [
+                'users' => $data,
+            ] );
+        }
+        else{
             $data = User::all();
             return view( 'users.all-users', [
                 'users' => $data,
@@ -43,6 +50,8 @@ class UserController extends Controller {
 
         if( Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2) ){
             $roles = Role::pluck( 'name', 'id' )->toArray();
+        }elseif (Auth::user()->role && (Auth::user()->role->priority == 8 )){
+            $roles = Role::whereNotIn('priority',[1,2,8])->pluck( 'name', 'id' )->toArray();
         }else{
             $roles = Role::whereIn('priority',[10,11,12])->pluck( 'name', 'id' )->toArray();
         }
@@ -80,8 +89,8 @@ class UserController extends Controller {
             'role_id.required' => 'The Role field is required',
         ] );
 
-        if ( Auth::user()->role && Auth::user()->role->priority == 5 ) {
-            $data['se'] = Auth::user()->id;
+        if ( Auth::user()->role && (Auth::user()->role->priority == 5 || Auth::user()->role->priority == 8 ) ) {
+            $data['added_by'] = Auth::user()->id;
         }
         
 // dd( $data );

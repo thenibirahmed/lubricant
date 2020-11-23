@@ -44,11 +44,13 @@
                     <ul>
                         <li> 
                             <a href="{{ route('users.index') }}">All Users</a>
-                            <a href="{{ route('users.create') }}">Create Users</a>
-                            <a href="{{ route('user.profile') }}">My Profile</a>
                             @if (Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2) )
                             <a href="{{ route('user.search') }}">Search Users</a>
                             @endif
+                            @if (Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2 || Auth::user()->role->priority == 5 || Auth::user()->role->priority == 8) )
+                            <a href="{{ route('users.create') }}">Create Users</a>
+                            @endif
+                            <a href="{{ route('user.profile') }}">My Profile</a>   
                         </li>
                     </ul>                 
                 </li>

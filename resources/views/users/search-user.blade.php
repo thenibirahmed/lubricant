@@ -97,7 +97,9 @@
                                         <th><b>#</b></th>
                                         <th class="w60"><b> Name</b></th>
                                         <th><b>Role</b></th>
+                                        <th><b>Shop Name</b></th>
                                         <th><b>Division</b></th>
+                                        <th><b>District</b></th>
                                         <th><b>Cell No.</b></th>
                                         <th><b>Created Date</b></th>
                                         <th class="w100"><b> Action</b></th>
@@ -116,7 +118,9 @@
                                                         <span>{{ $user->email ?? 'Not Found' }}</span>
                                                     </td>
                                                     <td><span class="badge {{ $user->role ? 'badge-info' : 'badge-danger' }}">{{ $user->role->name ?? 'Not Defined' }}</span></td>
+                                                    <td>{{ $user->shop_name ?? "Not Found" }}</td>
                                                     <td>{{ $user->division ?? "Not Found" }}</td>
+                                                    <td>{{ $user->district ?? "Not Found" }}</td>
                                                     <td>{{ $user->cell_no ?? 'Not Found' }}</td>
                                                     <td>{{ $user->created_at ? $user->created_at->diffForHumans() : "Not Found" }}</td>
                                                     <td>

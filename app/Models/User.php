@@ -30,7 +30,7 @@ class User extends Authenticatable {
         'shop_name',
         'is_active',
         'dob',
-        'se',
+        'added_by',
         'address',
     ];
 
@@ -60,9 +60,11 @@ class User extends Authenticatable {
         return $this->belongsTo( 'App\Models\Media', 'shop_image' );
     }
 
-    public function sales_user() {
-        return $this->hasMany( 'App\Models\User', 'se', 'id' );
+    public function by() {
+        return $this->hasMany( 'App\Models\User', 'added_by', 'id' );
     }
+
+
 
     const divisions = [
         'Chattagram' => 'Chattagram',
