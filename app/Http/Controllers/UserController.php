@@ -28,7 +28,11 @@ class UserController extends Controller {
                 'users' => $data,
             ] );
         }elseif(Auth::user()->role && Auth::user()->role->priority == 8){
-            $data = Auth::user()->by;
+            $data = User::whereHas(
+                'role', function($q){
+                    $q->whereNotIn('priority', [1,2] );
+                }
+            )->get();
             return view( 'users.all-users', [
                 'users' => $data,
             ] );
