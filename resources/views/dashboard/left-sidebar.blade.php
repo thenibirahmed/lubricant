@@ -44,7 +44,7 @@
                     <ul>
                         <li> 
                             <a href="{{ route('users.index') }}">All Users</a>
-                            @if (Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2) )
+                            @if (Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2 || Auth::user()->role->priority == 8) )
                             <a href="{{ route('user.search') }}">Search Users</a>
                             @endif
                             @if (Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2 || Auth::user()->role->priority == 5 || Auth::user()->role->priority == 8) )

@@ -26,7 +26,7 @@ Auth::routes(['register' => false]);
 
 Route::get( '/home', [App\Http\Controllers\HomeController::class, 'index'] )->name( 'home' );
 
-Route::group( ['middleware' => ['auth', 'role:1,2']], function () {
+Route::group( ['middleware' => ['auth', 'role:1,2,8']], function () {
     
     Route::get( '/search-user', ['uses' => 'UserController@search', 'as' => 'user.search'] );
 

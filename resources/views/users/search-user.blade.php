@@ -64,7 +64,7 @@
                 <div class="tab-content">
 
                     <div class="" id="">
-                        <div class="body mb-3">
+                        {{-- <div class="body mb-3">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="text-left">
@@ -72,23 +72,61 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+                        {!! Form::open(['method'=>'GET']) !!}
                         <div class="body mb-3">
                             <div class="row">
-                                
-                                <div class="col-md-12">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-secondary" data-target="all">All</button>
-                                        @if ( isset($roles) )
-                                            @foreach ($roles as $role)
-                                                <button type="button" class="btn btn-sm mb-1 btn-filter btn-outline-primary" data-target="{{ $role->name }}">{{ $role->name }}</button>
-                                            @endforeach
-                                        @endif
-                                        <a href="{{ route('user.search') }}" class="btn btn-sm mb-1 btn-filter btn-outline-secondary">Reset</a>
+                                @if ($errors->any())
+                                    @foreach ($errors->all() as $error)    
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <i class="fa fa-times-circle"></i> {{ $error }}
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="col-md-3">
+                                    <div class="text-left">
+                                        <div class="form-group">
+                                            <b>{!! Form::label('division', 'Division'); !!}</b>
+                                            {!! Form::select('division',\App\Models\User::divisions ?? [],request()->division ?? null,['class'=>($errors->has('division')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'All Division']) !!} 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-left">
+                                        <div class="form-group">
+                                            <b>{!! Form::label('district', 'District'); !!}</b>
+                                            {!! Form::select('district', \App\Models\User::districts ?? [], request()->district ?? null ,['class'=>($errors->has('district')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'All District']) !!} 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-left">
+                                        <div class="form-group">
+                                            <b>{!! Form::label('subdistrict', 'Subdistrict'); !!}</b>
+                                            {!! Form::select('subdistrict', App\Models\User::upazilas ?? [], request()->subdistrict ?? null , ['class'=>($errors->has('subdistrict')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'All Subistrict']) !!} 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="text-left">
+                                        <div class="form-group">
+                                            <b>{!! Form::label('roles', 'Roles'); !!}</b>
+                                            {!! Form::select('roles', $roles ?? [], request()->roles ?? null, ['class'=>($errors->has('roles')) ? 'form-control parsley-error' : 'form-control','placeholder'=>'All Roles']) !!} 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="text-left">
+                                        <div class="form-group mt-2">
+                                            {{-- <b>{!! Form::label('roles', 'Roles'); !!}</b> --}}
+                                            {!! Form::submit('Search', ['class'=>'btn btn-primary mt-4']) !!} 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {!! Form::close() !!}
 
                         <div class="table-responsive">
                             <table class="table table-hover dataTable js-exportable table-custom spacing5">
@@ -154,14 +192,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><b>Search User Credentials</b></h5>
                     </div>
-                    @if ($errors->any())
-                        @foreach ($errors->all() as $error)    
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <i class="fa fa-times-circle"></i> {{ $error }}
-                            </div>
-                        @endforeach
-                    @endif
+                    
                     
                     <div class="modal-body">
                         {!! Form::open(['method'=>'GET']) !!}

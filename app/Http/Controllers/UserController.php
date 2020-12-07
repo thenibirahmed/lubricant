@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller {
 
     public function __construct() {
-        $this->middleware(['auth','role:1,2'])->except(['index','create','store','profile','user_account_data_update','user_basic_data_update']);
-        $this->middleware(['auth','role:1,2,5,8'])->only(['index','create','store']);
+        $this->middleware( ['auth', 'role:1,2'] )->except( ['index', 'create', 'store', 'profile', 'user_account_data_update', 'user_basic_data_update','search'] );
+        $this->middleware( ['auth', 'role:1,2,5,8'] )->only( ['index', 'create', 'store','search'] );
     }
     /**
      * Display a listing of the resource.
@@ -21,23 +21,22 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        if( Auth::user()->role && Auth::user()->role->priority == 5 ){
+        if ( Auth::user()->role && Auth::user()->role->priority == 5 ) {
             $data = Auth::user()->by;
-            
+
             return view( 'users.all-users', [
                 'users' => $data,
             ] );
-        }elseif(Auth::user()->role && Auth::user()->role->priority == 8){
+        } elseif ( Auth::user()->role && Auth::user()->role->priority == 8 ) {
             $data = User::whereHas(
-                'role', function($q){
-                    $q->whereNotIn('priority', [1,2] );
+                'role', function ( $q ) {
+                    $q->whereNotIn( 'priority', [1, 2] );
                 }
             )->get();
             return view( 'users.all-users', [
                 'users' => $data,
             ] );
-        }
-        else{
+        } else {
             $data = User::all();
             return view( 'users.all-users', [
                 'users' => $data,
@@ -52,12 +51,12 @@ class UserController extends Controller {
      */
     public function create() {
 
-        if( Auth::user()->role && (Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2) ){
+        if ( Auth::user()->role && ( Auth::user()->role->priority == 1 || Auth::user()->role->priority == 2 ) ) {
             $roles = Role::pluck( 'name', 'id' )->toArray();
-        }elseif (Auth::user()->role && (Auth::user()->role->priority == 8 )){
-            $roles = Role::whereNotIn('priority',[1,2,8])->pluck( 'name', 'id' )->toArray();
-        }else{
-            $roles = Role::whereIn('priority',[10,11,12])->pluck( 'name', 'id' )->toArray();
+        } elseif ( Auth::user()->role && ( Auth::user()->role->priority == 8 ) ) {
+            $roles = Role::whereNotIn( 'priority', [1, 2, 8] )->pluck( 'name', 'id' )->toArray();
+        } else {
+            $roles = Role::whereIn( 'priority', [10, 11, 12] )->pluck( 'name', 'id' )->toArray();
         }
         // dd($roles);
         return view( 'users.create-users', [
@@ -93,14 +92,14 @@ class UserController extends Controller {
             'role_id.required' => 'The Role field is required',
         ] );
 
-        if ( Auth::user()->role && (Auth::user()->role->priority == 5 || Auth::user()->role->priority == 8 ) ) {
+        if ( Auth::user()->role && ( Auth::user()->role->priority == 5 || Auth::user()->role->priority == 8 ) ) {
             $data['added_by'] = Auth::user()->id;
         }
-        
+
 // dd( $data );
-        if($data['password'] == null){
-            $data['password'] = Hash::make("password");
-        }else{
+        if ( $data['password'] == null ) {
+            $data['password'] = Hash::make( "password" );
+        } else {
             $data['password'] = Hash::make( $data['password'] );
         }
 
@@ -149,24 +148,28 @@ class UserController extends Controller {
     public function search( Request $request ) {
         if ( empty( $request->all() ) ) {
 
+            // dd(Role::pluck('name','id')->toArray());
             return view( 'users.search-user', [
                 'users' => User::all(),
-                'roles' => Role::all(),
+                'roles' => Role::pluck( 'name', 'id' )->toArray(),
             ] );
         } else {
-            
+
             $data = $request->validate( [
-                'division'    => 'required',
+                'division'    => 'nullable',
                 'district'    => 'nullable',
                 'subdistrict' => 'nullable',
+                'roles'        => 'nullable',
             ] );
 
-            $user = User::where( 'division', $data['division'] );
+            $user = new User();
 
+            $user = isset( $data['division'] ) ? $user->where( 'division', $data['division'] ) : $user;
             $user = isset( $data['district'] ) ? $user->where( 'district', $data['district'] ) : $user;
             $user = isset( $data['subdistrict'] ) ? $user->where( 'subdistrict', $data['subdistrict'] ) : $user;
+            $user = isset( $data['roles'] ) ? $user->where( 'role_id', $data['roles'] ) : $user;
 
-            $roles = Role::all();
+            $roles = Role::pluck( 'name', 'id' )->toArray();
 
             return view( 'users.search-user', [
                 'users' => $user->get(),
@@ -240,7 +243,7 @@ class UserController extends Controller {
 
                 //return $unlinkAddress . $user->media->id;
                 //return asset('') . $oldimage->path;
-                if( file_exists($unlinkAddress) ){
+                if ( file_exists( $unlinkAddress ) ) {
                     unlink( $unlinkAddress );
                 }
                 Media::destroy( $user->lisence->id );
@@ -265,7 +268,7 @@ class UserController extends Controller {
 
                 //return $unlinkAddress . $user->media->id;
                 //return asset('') . $oldimage->path;
-                if( file_exists($unlinkAddress) ){
+                if ( file_exists( $unlinkAddress ) ) {
                     unlink( $unlinkAddress );
                 }
                 Media::destroy( $user->shop_img->id );
@@ -410,7 +413,7 @@ class UserController extends Controller {
 
             //return $unlinkAddress . $user->media->id;
             //return asset('') . $oldimage->path;
-            if( file_exists($unlinkAddress) ){
+            if ( file_exists( $unlinkAddress ) ) {
                 unlink( $unlinkAddress );
             }
             Media::destroy( $user->lisence->id );
@@ -422,7 +425,7 @@ class UserController extends Controller {
 
             //return $unlinkAddress . $user->media->id;
             //return asset('') . $oldimage->path;
-            if( file_exists($unlinkAddress) ){
+            if ( file_exists( $unlinkAddress ) ) {
                 unlink( $unlinkAddress );
             }
             Media::destroy( $user->shop_img->id );

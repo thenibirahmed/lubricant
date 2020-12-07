@@ -64,8 +64,6 @@ class User extends Authenticatable {
         return $this->hasMany( 'App\Models\User', 'added_by', 'id' );
     }
 
-
-
     const divisions = [
         'Chattagram' => 'Chattagram',
         'Rajshahi'   => 'Rajshahi',
@@ -625,6 +623,47 @@ class User extends Authenticatable {
         'Mohongonj'             => 'Mohongonj',
         'Purbadhala'            => 'Purbadhala',
         'Netrokona Sadar'       => 'Netrokona Sadar',
+        'Adabor'                => 'Adabor',
+        'Uttar Khan'            => 'Uttar Khan',
+        'Uttara'                => 'Uttara',
+        'Kadamtali'             => 'Kadamtali',
+        'Kalabagan'             => 'Kalabagan',
+        'Kafrul'                => 'Kafrul',
+        'Kamrangirchar'         => 'Kamrangirchar',
+        'Cantonment'            => 'Cantonment',
+        'Kotwali'               => 'Kotwali',
+        'Khilkhet'              => 'Khilkhet',
+        'Khilgaon'              => 'Khilgaon',
+        'Gulshan'               => 'Gulshan',
+        'Gendaria'              => 'Gendaria',
+        'Chawkbazar Model'      => 'Chawkbazar Model',
+        'Demra'                 => 'Demra',
+        'Turag'                 => 'Turag',
+        'Tejgaon'               => 'Tejgaon',
+        'Tejgaon I/A'           => 'Tejgaon I/A',
+        'Dakshinkhan'           => 'Dakshinkhan',
+        'Darus Salam'           => 'Darus Salam',
+        'Dhanmondi'             => 'Dhanmondi',
+        'New Market'            => 'New Market',
+        'Paltan'                => 'Paltan',
+        'Pallabi'               => 'Pallabi',
+        'Bangshal'              => 'Bangshal',
+        'Badda'                 => 'Badda',
+        'Bimanbandar'           => 'Bimanbandar',
+        'Motijheel'             => 'Motijheel',
+        'Mirpur Model'          => 'Mirpur Model',
+        'Mohammadpur'           => 'Mohammadpur',
+        'Jatrabari'             => 'Jatrabari',
+        'Ramna'                 => 'Ramna',
+        'Rampura'               => 'Rampura',
+        'Lalbagh'               => 'Lalbagh',
+        'Shah Ali'              => 'Shah Ali',
+        'Shahbagh'              => 'Shahbagh',
+        'Sher-e-Bangla Nagar'   => 'Sher-e-Bangla Nagar',
+        'Shyampur'              => 'Shyampur',
+        'Sabujbagh'             => 'Sabujbagh',
+        'Sutrapur'              => 'Sutrapur',
+        'Hazaribagh'            => 'Hazaribagh',
     );
 
     /**
