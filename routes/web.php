@@ -77,4 +77,5 @@ Route::post( 'front-reg', [
     'uses' => 'UserController@front_reg',
 ] );
 
+// end
 
