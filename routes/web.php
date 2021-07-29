@@ -79,3 +79,4 @@ Route::post( 'front-reg', [
 
 // end
 
+// feature just for post
